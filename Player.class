@@ -31,7 +31,7 @@ public class Player {
 
 	public int makeMoveM(int M){
 		if (human== true) {
-			System.out.println("Ваш ход (x): ");
+			System.out.println("Игрок "+ mark+". Ваш ход (x): ");
 			Scanner in = new Scanner(System.in);
 			int m = in.nextInt();
 			return m-1;
