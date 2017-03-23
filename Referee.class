@@ -1,0 +1,49 @@
+package CROSS;
+
+import java.util.Scanner;
+
+public class Referee {
+	public static void main (String args[]){
+		int n,m,vic;
+		String humans;
+		boolean first=false, second=false;
+		System.out.println("Введите размер поля, ширина:");
+		Scanner in = new Scanner(System.in);
+		n = in.nextInt();
+		System.out.println("Введите размер поля, высота:");
+		m = in.nextInt();
+		System.out.println("Введите условие победы, единиц в ряд:");
+		vic = in.nextInt();
+		Board board1 =new Board(n, m, vic);		
+		
+		System.out.println("За игрока 1 играет человек? да/нет");
+		humans = in.next();
+		first=humans.equals("да");
+
+		System.out.println("За игрока 2 играет человек? да/нет");
+		humans = in.next();
+		second=humans.equals("да");
+		
+			Player player1=new Player(1, first);
+			Player player2=new Player(2, second);
+
+		if (player1.getMark()==player2.getMark()) System.out.println("Конфликт знаков игроков");
+		System.out.println("Размер игрового поля "+ board1.getN() + " на " + board1.getM() + " клеток: "+ board1.getSpace());
+		if (board1.getVic()<=4){System.out.println("Условия победы: "+ board1.getVic()+" знака в ряд.");}
+		else if (board1.getVic()>4){System.out.println("Условия победы: "+ board1.getVic()+" знаков в ряд.");}
+		board1.draw();
+		for (board1.getSpace(); board1.getSpace()>0;){
+			for(;(board1.move(player1.makeMoveM(board1.getM()),player1.makeMoveN(board1.getN()), player1.getMark()))!=true;){}
+		if (board1.victory()==true) {
+			System.out.println("Игрок 1 победил");
+			return;
+			}
+			for(;(board1.move(player2.makeMoveM(board1.getM()),player2.makeMoveN(board1.getN()), player2.getMark()))!=true;){}
+		if (board1.victory()==true) {
+			System.out.println("Игрок 2 победил");
+			return;
+				}
+		}
+	}
+
+}
