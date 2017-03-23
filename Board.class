@@ -1,0 +1,169 @@
+package CROSS;
+
+public class Board {
+	private int tempN, tempM, tempC;
+	private int n, m, vic;
+	private int[][] board;
+	private int space=n*m;
+	
+	Board(int m, int n){this(m,n,3);}
+	
+	Board(){this(3,3,3);}
+	
+	Board(int m, int n, int vic){
+		if (n<3|m<3|vic<3|(vic>n&vic>m)) {
+			System.out.println("Неверные начальные параметры, игра невозможна");
+			return;
+		}
+		this.n=n;
+		this.m=m;
+		this.vic=vic;
+		space=n*m;
+		this.board= new int[n][m];
+	}
+	
+	public int getN(){
+		return n;
+	}
+	
+	public int getVic(){
+		return vic;
+	}
+	
+	public int getM(){
+		return m;
+	}
+	
+	public int getSpace(){
+		return space;
+	}
+	
+	public boolean move (int m, int n, int c){
+		System.out.println("Попытка сделать ход игроком "+ c + ". Координаты: "+(m+1) + " "+(n+1));
+
+		if (board [n][m]==0) {
+			board [n][m]=c;
+			tempN=n;
+			tempM=m;
+			tempC=c;
+			space--;
+			System.out.println("Сделан ход: ");
+			draw();
+			return true;
+		} else {
+			System.out.print("Неудача. ");
+			return false;}
+	}
+	
+	public boolean victory (){
+		int tempNdiag=0;
+		int tempMdiag=0;
+		
+		//проверка победы по горизонтали
+		for(int k=1, inRow=0, oldM=0, newM=0; k<=m; k++) {
+			newM=oldM+1;
+
+			if (newM==m) break;
+			if (board[tempN][oldM]==tempC & board[tempN][oldM]==board[tempN][newM]) {
+				inRow++;
+			//	System.out.println("!Победа по горизонтали в ряд: "+ (inRow+1));
+			} else inRow=0;
+			if (inRow==(vic-1)) {
+			//	System.out.println("!!!Победа по горизонтали");
+				
+				return true;}
+			oldM++;
+			}
+//проверка победы по вертикали
+for(int k=1, inRow=0, oldN=0, newN=0; k<=n; k++) {
+	newN=oldN+1;
+
+	if (newN==n) break;
+	if (board[oldN][tempM]==tempC & board[oldN][tempM]==board[newN][tempM]) {
+		inRow++;
+		//System.out.println("!Победа по вертикали в ряд: "+ (inRow+1));
+	} else inRow=0;
+	if (inRow==(vic-1)) {
+		//System.out.println("!!!Победа по вертикали");
+				
+		return true;}
+	oldN++;
+	}
+	
+		
+		// проверка победы по диагонали вправо вниз:
+		while (tempNdiag>0&tempMdiag>0){
+			tempNdiag--;
+			tempMdiag--;
+		//System.out.println(tempNdiag+ " "+ tempMdiag);
+		}
+			
+					for(int k=0, inRow=0, oldN=0, newN=0, oldM=0, newM=0; k<n&k<m; k++) {
+						
+						oldN=tempNdiag+k;
+						oldM=tempMdiag+k;
+						newN=oldN+1;
+						newM=oldM+1;
+						if (newN==n)break;
+						if (newM==m)break;
+						if (board[oldN][oldM]==tempC & board[oldN][oldM]==board[newN][newM]) {
+							inRow++;
+							//System.out.println("!Победа по диагонали вправо вниз в ряд: "+ (inRow+1));
+							} else inRow=0;
+						if (inRow==(vic-1)) {
+							//System.out.println("!!!Победа по диагонали вправо вниз");
+							return true;}
+					}
+		// проверка победы по диагонали вправо вверх:
+					tempNdiag=tempN;
+					tempMdiag=tempM;
+
+			while (tempNdiag<(n-1)&tempMdiag>0){
+				tempNdiag++;
+				tempMdiag--;
+			//System.out.println(tempNdiag+ " "+ tempMdiag);
+				}
+		
+					for(int k=0, inRow=0, oldN=0, newN=0, oldM=0, newM=0; k<n&k<m; k++) {
+									
+						oldN=tempNdiag-k;
+						oldM=tempMdiag+k;
+						newN=oldN-1;
+						newM=oldM+1;
+						if (newN<0)break;
+						if (newM>(m-1))break;
+						if (board[oldN]
+								[oldM]==tempC & board
+								[oldN]
+										[oldM]==board
+								[newN]
+								[newM]) {
+							inRow++;
+							//System.out.println("!Победа по диагонали вправо вверх в ряд: "+ (inRow+1));
+							} else inRow=0;
+						if (inRow==(vic-1)) {
+							//System.out.println("!!!Победа по диагонали вправо вверх");
+							return true;}
+					}
+					
+		return false;
+	}
+	
+	public void draw (){
+		for(int i=0;i!=n;i++){
+			for (int j=0; j!=m; j++){
+				if (j==m-1) {
+					if (board[i][j]==0) {System.out.println("_"); continue;}
+					if (board [i][j]==1) {System.out.println("X "); continue;}
+					if (board [i][j]==2) {System.out.println("O "); continue;}
+					}
+				if (board[i][j]==0) {System.out.print("_ ");}
+				else if (board [i][j]==1) {System.out.print("X ");}
+				else if (board [i][j]==2) {System.out.print("O ");}
+			}
+		}
+		System.out.println(" ");
+	}
+	
+	
+}
