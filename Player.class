@@ -1,0 +1,47 @@
+package CROSS;
+
+import java.util.Scanner;
+
+public class Player {
+	private int mark;
+	private boolean human;
+	
+	Player(int mark){
+		this(mark, false);
+		
+	}
+	Player(int mark, boolean human){
+		this.mark=mark;
+		this.human=human;
+		if (mark==1|mark==2) System.out.println("Знак игрока назначен: "+ getMark());
+	}
+	
+
+	public int makeMoveN(int N){
+		if (human== true) {
+			System.out.println("Игрок "+ mark+". Ваш ход (y): ");
+			Scanner in = new Scanner(System.in);
+			int n = in.nextInt();
+			return N-n;
+		}
+		else {
+		int n= (int) (N*Math.random());
+		return n;}
+	}
+
+	public int makeMoveM(int M){
+		if (human== true) {
+			System.out.println("Ваш ход (x): ");
+			Scanner in = new Scanner(System.in);
+			int m = in.nextInt();
+			return m-1;
+		}
+		int m= (int) (M*Math.random());
+		return m;
+	}
+	
+	public int getMark(){
+		return mark;
+	}
+	
+}
