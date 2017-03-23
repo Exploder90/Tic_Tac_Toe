@@ -39,7 +39,7 @@ public class Board {
 	}
 	
 	public boolean move (int m, int n, int c){
-		System.out.println("Попытка сделать ход игроком "+ c + ". Координаты: "+(m+1) + " "+(n+1));
+		System.out.println("Попытка сделать ход игроком "+ c + ". Координаты: "+(m+1) + " "+(n+2));
 
 		if (board [n][m]==0) {
 			board [n][m]=c;
