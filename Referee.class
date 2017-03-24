@@ -5,18 +5,18 @@ import java.util.Scanner;
 public class Referee {
 	public static void main (String args[]){
 		int playersNum=0;
+		int tries=0;
 		int n,m,vic;
-		String humans;
-		boolean first=false, second=false;
 		System.out.println("Введите размер поля, ширина (минимум 3)");
 		Scanner in = new Scanner(System.in);
 		n = in.nextInt();
 		System.out.println("Введите размер поля, высота (минимум 3)");
 		m = in.nextInt();
-		System.out.println("Введите условие победы, единиц в ряд (минимум 3)");
+		System.out.println("Введите условие победы, единиц в ряд (3-20)");
 		vic = in.nextInt();
 		Board board1 =new Board(n, m, vic);	
 		if (board1.getCorrupted()) {
+			in.close();
 			return;
 		}
 		
@@ -24,6 +24,7 @@ public class Referee {
 		playersNum = in.nextInt();
 		if(playersNum<2&playersNum>9){
 			System.out.println("Неверно указано количество игроков!");
+			in.close();
 			return;
 		}
 		int j=playersNum;
@@ -46,18 +47,29 @@ public class Referee {
 			
 			int k=0;
 			while (board1.getSpace()>0 & k<j){
-				//System.out.println(players[0]==null);
-				//System.out.println(players.length);
-					board1.move(players[k].makeMoveM(board1.getM()),players[k].makeMoveN(board1.getN()), players[k].getMark());
-					k++;
+				
+					if(board1.move(players[k].makeMoveM(board1.getM()),players[k].makeMoveN(board1.getN()), players[k].getMark()))
+					{
+						k++;
+						tries=0;
+						}
+					else tries++;
+					if (tries>20){
+						System.out.println("Более 20 неудачных попыток сделать ход! Игра прекращена.");
+						in.close();
+						return;
+					}
 					
 			if (board1.victory()==true) {
 				System.out.println("Игрок " +k+ " победил");
+				in.close();
 				return;
 				}
 		}
+			
 		}
-		
+		System.out.println("Ничья");
+		in.close();
 	}
 
 }
