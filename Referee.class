@@ -4,46 +4,60 @@ import java.util.Scanner;
 
 public class Referee {
 	public static void main (String args[]){
+		int playersNum=0;
 		int n,m,vic;
 		String humans;
 		boolean first=false, second=false;
-		System.out.println("Введите размер поля, ширина:");
+		System.out.println("Введите размер поля, ширина (минимум 3)");
 		Scanner in = new Scanner(System.in);
 		n = in.nextInt();
-		System.out.println("Введите размер поля, высота:");
+		System.out.println("Введите размер поля, высота (минимум 3)");
 		m = in.nextInt();
-		System.out.println("Введите условие победы, единиц в ряд:");
+		System.out.println("Введите условие победы, единиц в ряд (минимум 3)");
 		vic = in.nextInt();
-		Board board1 =new Board(n, m, vic);		
+		Board board1 =new Board(n, m, vic);	
+		if (board1.getCorrupted()) {
+			return;
+		}
 		
-		System.out.println("За игрока 1 играет человек? да/нет");
-		humans = in.next();
-		first=humans.equals("да");
-
-		System.out.println("За игрока 2 играет человек? да/нет");
-		humans = in.next();
-		second=humans.equals("да");
+		System.out.println("Сколько игроков? (2-9)");
+		playersNum = in.nextInt();
+		if(playersNum<2&playersNum>9){
+			System.out.println("Неверно указано количество игроков!");
+			return;
+		}
+		int j=playersNum;
+		Player players[]= new Player[playersNum];
+		String isHuman[] = new String[playersNum];
+		for(int i=0;i<playersNum;i++){
+			System.out.println("За игрока " +(i+1)+ " играет человек? да/нет");
+			isHuman[i] = in.next();
+		}
 		
-			Player player1=new Player(1, first);
-			Player player2=new Player(2, second);
-
-		if (player1.getMark()==player2.getMark()) System.out.println("Конфликт знаков игроков");
+		for(int q=0;q<playersNum;q++){
+			//System.out.println("Создан игрок "+(q+1));
+			players[q] = new Player( (q+1) , (isHuman[q].equals("да")) );
+		}
 		System.out.println("Размер игрового поля "+ board1.getN() + " на " + board1.getM() + " клеток: "+ board1.getSpace());
 		if (board1.getVic()<=4){System.out.println("Условия победы: "+ board1.getVic()+" знака в ряд.");}
 		else if (board1.getVic()>4){System.out.println("Условия победы: "+ board1.getVic()+" знаков в ряд.");}
 		board1.draw();
-		for (board1.getSpace(); board1.getSpace()>0;){
-			for(;(board1.move(player1.makeMoveM(board1.getM()),player1.makeMoveN(board1.getN()), player1.getMark()))!=true;){}
-		if (board1.victory()==true) {
-			System.out.println("Игрок 1 победил");
-			return;
-			}
-			for(;(board1.move(player2.makeMoveM(board1.getM()),player2.makeMoveN(board1.getN()), player2.getMark()))!=true;){}
-		if (board1.victory()==true) {
-			System.out.println("Игрок 2 победил");
-			return;
+		while(board1.getSpace()>0){
+			
+			int k=0;
+			while (board1.getSpace()>0 & k<j){
+				//System.out.println(players[0]==null);
+				//System.out.println(players.length);
+					board1.move(players[k].makeMoveM(board1.getM()),players[k].makeMoveN(board1.getN()), players[k].getMark());
+					k++;
+					
+			if (board1.victory()==true) {
+				System.out.println("Игрок " +k+ " победил");
+				return;
 				}
 		}
+		}
+		
 	}
 
 }
