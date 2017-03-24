@@ -12,7 +12,7 @@ public class Board {
 	Board(){this(3,3,3);}
 	
 	Board(int m, int n, int vic){
-		if (n<3|m<3|vic<3|(vic>n&vic>m)) {
+		if (n<3||m<3||vic<3||vic>20||(vic>n&vic>m)) {
 			System.out.println("Неверные начальные параметры, игра невозможна");
 			corrupted=true;
 			return;
@@ -43,7 +43,7 @@ public class Board {
 		return corrupted;
 	}
 	public boolean move (int m, int n, int c){
-		System.out.println("Попытка сделать ход игроком "+ c + ". Координаты: "+(m+1) + " "+(n+2));
+		System.out.println("Попытка сделать ход игроком "+ c + ". Координаты: "+(m+1) + " "+(this.n-n));
 
 		if (board [n][m]==0) {
 			board [n][m]=c;
@@ -161,23 +161,15 @@ for(int k=1, inRow=0, oldN=0, newN=0; k<=n; k++) {
 					else if (board [i][j]==1) {System.out.println("X "); continue;}
 					else if (board [i][j]==2) {System.out.println("O "); continue;}
 					else if (board [i][j]==3) {System.out.println("@ "); continue;}
-					else if (board [i][j]==4) {System.out.println("4 "); continue;}
-					else if (board [i][j]==5) {System.out.println("5 "); continue;}
-					else if (board [i][j]==6) {System.out.println("6 "); continue;}
-					else if (board [i][j]==7) {System.out.println("7 "); continue;}
-					else if (board [i][j]==8) {System.out.println("8 "); continue;}
-					else if (board [i][j]==9) {System.out.println("9 "); continue;}
+					else  {System.out.println(board [i][j]+" "); continue;}
+
 					}
 				if (board[i][j]==0) {System.out.print("_ ");}
 				else if (board [i][j]==1) {System.out.print("X ");}
 				else if (board [i][j]==2) {System.out.print("O ");}
 				else if (board [i][j]==3) {System.out.print("@ ");}
-				else if (board [i][j]==4) {System.out.print("4 ");}
-				else if (board [i][j]==5) {System.out.print("5 ");}
-				else if (board [i][j]==6) {System.out.print("6 ");}
-				else if (board [i][j]==7) {System.out.print("7 ");}
-				else if (board [i][j]==8) {System.out.print("8 ");}
-				else if (board [i][j]==9) {System.out.print("9 ");}
+				else  {System.out.print(board [i][j]+" ");}
+
 			}
 		}
 		System.out.println(" ");
